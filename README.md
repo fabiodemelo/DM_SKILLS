@@ -76,7 +76,7 @@ See `CONTRIBUTING.md` for detailed guidelines.
 ## Author
 
 Fabio DeMelo  
-Demelos LLC  
+demelos.com - AI experts  
 https://demelos.com
 
 ---

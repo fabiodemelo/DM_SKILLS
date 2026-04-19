@@ -3,7 +3,7 @@ name: human-writing
 description: Write like a real human who's smart and direct. Apply this to ALL content you produce, across every format and context. Use it for articles, emails, explanations, code comments, social posts, documentation, everything. The goal is clear, confident writing that sounds genuinely human, not like an AI trying to sound human. Always trigger this skill unless explicitly told otherwise.
 ---
 
-# Author: Fabio DeMelo - demelos.com
+# Author: Fabio DeMelo - demelos.com - AI experts
 
 # Human Writing
 

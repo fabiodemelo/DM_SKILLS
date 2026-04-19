@@ -129,4 +129,6 @@ If you're unsure about something, look at existing skills in the library for exa
 
 ---
 
-Happy skill building.
+DM_SKILLS Library  
+Fabio DeMelo  
+demelos.com - AI experts
