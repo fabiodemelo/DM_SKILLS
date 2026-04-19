@@ -109,9 +109,9 @@ If you want to modify the rules for your own use, edit `SKILL.md` directly. Comm
 
 ## Author
 
-Fabio DeMelo  
-demelos.com - AI experts  
-https://demelos.com
+Fabio DeMelo
+demelos.com - AI experts
+https://www.demelos.com
 
 ---
 

@@ -129,6 +129,7 @@ If you're unsure about something, look at existing skills in the library for exa
 
 ---
 
-DM_SKILLS Library  
-Fabio DeMelo  
+DM_SKILLS Library
+Fabio DeMelo
 demelos.com - AI experts
+https://www.demelos.com
