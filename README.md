@@ -5,6 +5,7 @@ A collection of reusable Claude AI skills for Demelos LLC projects. Each skill i
 ## What's Inside
 
 - **human-writing** — A comprehensive writing style guide that produces clear, direct, human-sounding content without corporate jargon or AI-speak. Applies universally across all text generation tasks.
+- **rfp-review** — Analyzes RFPs, RFQs, RFIs, SOWs, and tender documents from a C-level executive perspective. Produces a 1-10 opportunity rating, bid/no-bid recommendation, executive brief, full 30-question scorecard, and red flag assessment.
 
 More skills coming soon.
 
