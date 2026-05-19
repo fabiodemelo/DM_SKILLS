@@ -14,6 +14,60 @@ Analyze any Request for Proposal (RFP), RFQ, RFI, SOW, tender, or procurement do
 
 ---
 
+## Installation & First-Run Setup
+
+When this skill is first invoked — or when `ALTA_API_KEY` is not yet set in the current session — Claude MUST run the setup sequence below before doing anything else. Do not skip it, even if the user immediately asks to analyze an RFP.
+
+### Setup Sequence
+
+**Step 1 — Detect missing key**
+
+Check whether `ALTA_API_KEY` has been set in this session. If not, display:
+
+---
+
+> **Alta Apps RFP Skill — First-Time Setup**
+>
+> This skill connects to your Alta Apps portal to fetch RFPs, post analysis notes, and update records.
+>
+> **You need a personal API key to continue.**
+>
+> **How to get your key:**
+> 1. Log in to Alta Apps → `https://apps.altajan.com/admin/`
+> 2. Click your name in the top-right corner
+> 3. Select **Settings & API Key**
+> 4. Click **Generate Personal API Key**
+> 5. Copy the key — it is only shown once
+>
+> Please paste your API key here to continue:
+
+---
+
+**Step 2 — Receive and validate the key**
+
+When the user pastes a key:
+- Store it as `ALTA_API_KEY` for this session
+- Make a test call: `GET https://apps.altajan.com/admin/api/v1/rfps.php?limit=1`  
+  with header `X-API-Key: <pasted key>`
+- If HTTP 200 → confirm: `"API key accepted. Connected to Alta Apps as [key name]. Ready to analyze RFPs."`
+- If HTTP 401 → reply: `"That key was rejected (invalid or inactive). Please verify the key in Settings & API Key and try again."`
+- If HTTP 403 → reply: `"Key authenticated but missing RFP read permissions. Ask your administrator to update your key's permissions."`
+- Do NOT proceed until a valid key is confirmed.
+
+**Step 3 — Resume the user's original request**
+
+Once the key is confirmed, immediately continue with whatever the user originally asked (e.g., "analyze RFP 373").
+
+### Key Storage Rules
+
+- Store the key in memory for this session only as `ALTA_API_KEY`
+- Never write the key to a file, commit, or log
+- Never display the full key back to the user after setup
+- If the session ends and restarts, run setup again
+- If the user types `reset api key` or `change api key`, clear `ALTA_API_KEY` and re-run setup
+
+---
+
 ## Alta Apps API
 
 ### Credentials

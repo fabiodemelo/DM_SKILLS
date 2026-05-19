@@ -86,6 +86,17 @@ cp -r skills/rfp-review ~/.cowork/skills/rfp-review
 
 Upload the skill folder via the skills UI, or reference the SKILL.md content directly.
 
+### First Run
+
+On first use, the skill will automatically ask you for your **Alta Apps personal API key**. You do not need to configure anything beforehand — just install the skill and invoke it. Claude will guide you through getting the key:
+
+1. Log in to Alta Apps → `https://apps.altajan.com/admin/`
+2. Click your name → **Settings & API Key**
+3. Click **Generate Personal API Key**
+4. Copy and paste it when prompted
+
+The key is validated immediately with a live API call. It is stored for the session only and never written to disk.
+
 ## Structure
 
 ```
