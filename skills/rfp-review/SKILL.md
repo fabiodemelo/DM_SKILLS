@@ -21,8 +21,18 @@ Analyze any Request for Proposal (RFP), RFQ, RFI, SOW, tender, or procurement do
 | Field | Value |
 |-------|-------|
 | Base URL | `https://apps.altajan.com/admin/api/v1/` |
-| Header | `X-API-Key: ak_live_4d9080084a842afaf59adfa1e4470520a1b7bac304c7c7a0fb334dde` |
+| Header | `X-API-Key: YOUR_PERSONAL_API_KEY` |
 | Content-Type | `application/json` (for POST/PUT) |
+
+> **How to get your API key:**
+> 1. Log in to Alta Apps at `https://apps.altajan.com/admin/`
+> 2. Click your name in the top-right corner
+> 3. Select **Settings & API Key**
+> 4. Click **Generate Personal API Key**
+> 5. Copy the key immediately — it is only shown once
+> 6. Paste it into your Claude skill configuration or environment variable
+>
+> Each user has their own personal key. All API calls are logged with your name, IP address, and timestamp. Never share your key or commit it to a repository. If compromised, revoke it from the same Settings page and generate a new one.
 
 ### Endpoints
 
