@@ -17,6 +17,7 @@ These are contractual or structural issues that threaten company solvency or leg
 - **Mandatory non-compete preventing us from serving other clients in the industry.**
 - **Contract governed by a jurisdiction we cannot operate in** (e.g., certain ITAR/export-controlled contexts without the required clearance).
 - **No right to cure on termination for default.** Buyer can terminate without notice for any perceived breach.
+- **Our total estimated cost exceeds the disclosed max / cap budget.** No path to positive margin without scope reduction or cap negotiation. Auto NO-BID unless cap is raised or scope is cut.
 
 ---
 
@@ -37,6 +38,12 @@ Don't auto-kill the deal, but these require explicit executive sign-off and like
 - **Pricing schedule not provided** — buyer wants our number without disclosing budget envelope.
 - **Evaluation criteria undisclosed or vague.** "Best value" with no scoring rubric.
 - **Amendments issued inside 5 business days of proposal due date** without deadline extension.
+- **Margin at cap below 10%.** Cost-to-cap leaves under 10% potential revenue — minimal buffer for overruns, change orders absorb margin.
+- **Prevailing wage / Davis-Bacon applicable but rates not disclosed.** Cannot estimate labor cost accurately without certified payroll schedule.
+- **Required labor trades or certifications we don't currently staff.** Hire / sub / partner plan needed before bid; check timeline feasibility.
+- **Execution schedule infeasible.** Phase durations or critical path require resources exceeding our capacity or compressed below industry norms.
+- **No execution schedule disclosed.** Buyer expects us to propose start-to-finish dates without anchoring to project milestones — high risk of misaligned expectations.
+- **Total estimated hours not derivable from scope.** Scope too vague to estimate labor — must clarify in Q&A before pricing.
 
 ---
 

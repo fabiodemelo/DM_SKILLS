@@ -1,4 +1,4 @@
-# RFP Analysis — The 30-Question C-Level Framework
+# RFP Analysis — The 35-Question C-Level Framework
 
 Work through every question. Cite the RFP section/page for each answer. If the document does not answer it, mark **"Not specified — REQUEST CLARIFICATION"** and add to the Q&A list.
 
@@ -116,16 +116,46 @@ Scoring rubric (price vs. technical weighting), evaluation panel composition, be
 
 ---
 
-## Category 8 — Go/No-Go Decision (2 questions)
+## Category 8 — Labor, Schedule & Cost Cap (5 questions)
 
-**Q29. Bid, No-Bid, or Conditional-Bid?**
-State the recommendation in one word, then the rationale in one paragraph. If Conditional-Bid, list the conditions (e.g., "only if we partner with X", "only if liability cap is negotiated below $Y").
+**Q29. What are the labor specifications?**
+Trade classifications (e.g., journeyman electrician, foreman, PM, laborer), prevailing wage / Davis-Bacon applicability, union vs. non-union, per-trade certifications (OSHA 30, state licenses, security clearances), required crew composition. Cite the section. If absent → REQUEST CLARIFICATION.
 
-**Q30. What are the top 3 questions we should submit to the issuing authority during Q&A?**
+**Q30. What is the execution schedule (separate from procurement timeline)?**
+Project phases inside the contract term: mobilization, design, build, test, commissioning, closeout. Durations per phase, critical path, deliverable milestones, dependencies on buyer inputs. Distinct from Q26 procurement dates.
+
+**Q31. What are the total estimated hours or days?**
+Sum across all roles. Show per-role breakdown if specified. If not specified in RFP, estimate from scope and flag as ASSUMPTION. Write to Alta field `estimated_hours`.
+
+**Q32. What is the total labor cost?**
+Table: Role / Trade × Hours × Burdened Rate ($/hr) = Subtotal. Total = Σ. Include prevailing-wage premium if applicable. Flag any rate inferred from market vs. specified.
+
+**Q33. How does our total cost compare to the max / cap budget?**
+If the RFP specifies a maximum budget, contract value cap, or "not-to-exceed" figure:
+
+| Metric | Value |
+|--------|-------|
+| Max budget (cap) | $X |
+| Our total cost | $Y |
+| Potential revenue ($) | $X − $Y = $Z |
+| Potential revenue (%) | (Z / X) × 100 = N% |
+| Margin % at cap | N% |
+| Status | ✅ Under cap / ⚠️ Tight (<10% margin) / ❌ Over cap |
+
+If our cost > cap → recommend NO-BID or re-scope. If no cap disclosed → label as ASSUMPTION, estimate from comparable projects.
+
+---
+
+## Category 9 — Go/No-Go Decision (2 questions)
+
+**Q34. Bid, No-Bid, or Conditional-Bid?**
+State the recommendation in one word, then the rationale in one paragraph. If Conditional-Bid, list the conditions (e.g., "only if we partner with X", "only if liability cap is negotiated below $Y", "only if cap budget is raised above $Z").
+
+**Q35. What are the top 3 questions we should submit to the issuing authority during Q&A?**
 Strategic Q&A submissions — questions that will change our bid strategy, not nitpicks.
 
 ---
 
 ## Note on Adaptation
 
-Not every RFP will answer every question. The goal is not to force-fit an answer but to surface the gaps. A brief that says **"10 of 30 questions unanswered — recommend No-Bid until clarification obtained"** is more valuable than a brief that invents answers.
+Not every RFP will answer every question. The goal is not to force-fit an answer but to surface the gaps. A brief that says **"12 of 35 questions unanswered — recommend No-Bid until clarification obtained"** is more valuable than a brief that invents answers.

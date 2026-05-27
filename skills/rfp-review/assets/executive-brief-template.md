@@ -76,6 +76,70 @@ Composite = (Opportunity × 0.4) + ((11 − Complexity) × 0.3) + (Revenue × 0.
 
 ---
 
+## The Labor
+
+### Specifications
+- **Trade classifications:** [list — e.g., journeyman electrician, foreman, PM, laborer]
+- **Prevailing wage / Davis-Bacon:** [Yes / No — cite section]
+- **Union requirement:** [Yes / No / either]
+- **Per-trade certifications:** [OSHA 30, state licenses, clearances]
+- **Crew composition:** [count by role per phase]
+
+### Hours & Cost
+
+| Role / Trade | Hours | Burdened Rate ($/hr) | Subtotal |
+|--------------|------:|---------------------:|---------:|
+| [Role 1] | [hrs] | $[rate] | $[sub] |
+| [Role 2] | [hrs] | $[rate] | $[sub] |
+| [Role 3] | [hrs] | $[rate] | $[sub] |
+| **Total** | **[hrs]** | | **$[total]** |
+
+**Total estimated hours:** [X]
+**Total estimated days:** [X]
+**Total labor cost:** $[X]
+
+---
+
+## Cost vs. Max Budget
+
+[**Only populate if RFP specifies a max / cap / not-to-exceed budget.** If no cap → state "No cap disclosed" and label revenue projection as ASSUMPTION based on comparable projects.]
+
+| Metric | Value |
+|--------|------:|
+| Max budget (cap) | $[X] |
+| Our total cost (labor + materials + overhead + contingency) | $[Y] |
+| **Potential revenue ($)** | **$[X − Y = Z]** |
+| **Potential revenue (%)** | **[(Z / X) × 100 = N]%** |
+| **Margin % at cap** | **[N]%** |
+| Status | [✅ Under cap / ⚠️ Tight <10% / ❌ Over cap] |
+
+**Cost breakdown:**
+- Labor: $[X]
+- Materials: $[X]
+- Overhead: $[X]
+- Contingency ([X]%): $[X]
+- **Total cost:** $[Y]
+
+[If status = ❌ Over cap → escalate to NO-BID or re-scope before continuing.]
+
+---
+
+## The Execution Schedule
+
+[Distinct from procurement timeline below. Phases inside the contract term.]
+
+| Phase | Start | End | Duration | Deliverable / Milestone |
+|-------|-------|-----|----------|-------------------------|
+| Mobilization | [date] | [date] | [days] | [milestone] |
+| [Phase 2] | [date] | [date] | [days] | [milestone] |
+| [Phase 3] | [date] | [date] | [days] | [milestone] |
+| Closeout | [date] | [date] | [days] | [milestone] |
+
+**Critical path:** [identify longest dependency chain]
+**Buyer-side dependencies:** [items requiring buyer action that could delay]
+
+---
+
 ## The Timeline
 
 | Milestone | Date | Notes |
@@ -124,4 +188,4 @@ Composite = (Opportunity × 0.4) + ((11 − Complexity) × 0.3) + (Revenue × 0.
 
 ---
 
-*Full 30-question scorecard attached in `scorecard-[rfp-ref].md`.*
+*Full 35-question scorecard attached in `scorecard-[rfp-ref].md`.*

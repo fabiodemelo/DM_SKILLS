@@ -1,6 +1,6 @@
 ---
 name: rfp-review
-description: Analyze RFPs (Request for Proposal), RFQs, RFIs, SOWs, and tender documents from a C-level executive perspective. Integrates with the Alta Apps API to fetch RFP data, post analysis notes, update fields, and attach documents. Produces a structured executive brief covering a 1-10 opportunity rating, bid/no-bid recommendation, financial analysis, resource requirements, risk assessment, compliance needs, and commercial terms. Triggers when the user shares RFP/RFQ/RFI/tender/proposal documents, pastes procurement text, asks for a bid/no-bid decision, asks to "review this RFP", "analyze this proposal", "should we bid on this", "RFP analysis", or says "analyze RFP [ID]".
+description: Analyze RFPs (Request for Proposal), RFQs, RFIs, SOWs, and tender documents from a C-level executive perspective. Integrates with the Alta Apps API to fetch RFP data, post analysis notes, update fields, attach documents, extract labor specs + cost, estimate profit/revenue against max-budget caps, validate source URLs, and update bid decisions. Produces a structured executive brief covering a 1-10 opportunity rating, bid/no-bid recommendation, financial analysis, resource requirements, risk assessment, compliance needs, and commercial terms. Always verifies the active RFP ID before any read or write. Triggers when the user shares RFP/RFQ/RFI/tender/proposal documents, pastes procurement text, asks for a bid/no-bid decision, asks to "review this RFP", "analyze this proposal", "should we bid on this", "RFP analysis", says "analyze RFP [ID]", or runs any `run [ID]`, `run exec`, `run docs`, `run labor cost`, `run profit`, `run revenue`, `run update [field] to [value]`, `run web update`, `run link`, `run decision [value]`, or `run help` command.
 ---
 
 # Author
@@ -65,6 +65,36 @@ Once the key is confirmed, immediately continue with whatever the user originall
 - Never display the full key back to the user after setup
 - If the session ends and restarts, run setup again
 - If the user types `reset api key` or `change api key`, clear `ALTA_API_KEY` and re-run setup
+
+---
+
+## RFP ID Verification Protocol
+
+**Every command and every action that touches an RFP MUST verify the RFP ID first. No exceptions.**
+
+### Rules
+
+1. **No RFP ID in current context** → ask the user:
+   > "Give me the RFP ID."
+
+   Wait for the reply. Never guess. Never auto-pick the most recent RFP.
+
+2. **An RFP ID is already active in this session** → confirm before any new action:
+   > "Are we still working on RFP #[ID] — [Title]? (Yes / No / different ID)"
+
+   - **Yes** → proceed
+   - **No** → ask for the new ID
+   - **Different ID supplied** → fetch it, echo the title, re-confirm
+
+3. **User supplies an ID with a command** (e.g., `run 373`, `run exec 373`) → fetch first, echo title, then confirm:
+   > "Confirming RFP #373 — [Title]. Proceed? (Yes / No)"
+
+4. **Cache the active RFP ID** in session memory as `ACTIVE_RFP_ID` along with `ACTIVE_RFP_TITLE`. Clear on `reset rfp`, on session end, or when user names a different RFP.
+
+5. **Every write action** (`run update`, `run decision`, `run web update`, posting a note, attaching a document) requires a fresh confirmation of the ID even if cached:
+   > "Writing to RFP #[ID] — [Title]. Confirm? (Yes / No)"
+
+6. If the user issues a command with no ID and no active session ID, refuse to execute and ask for the ID.
 
 ---
 
@@ -134,6 +164,12 @@ Success returns HTTP 201 with `{ "success": true, "id": <note_id> }`.
 ```
 GET https://apps.altajan.com/admin/api/v1/rfp_notes.php?rfp_id={rfp_id}
 ```
+
+#### Delete a Note
+```
+DELETE https://apps.altajan.com/admin/api/v1/rfp_notes.php?id={note_id}
+```
+Returns HTTP 200 with `{ "success": true, "id": <note_id>, "message": "Note deleted" }`. Use when reposting a corrected note (the API does not support PATCH/PUT on notes).
 
 #### Attach Document to RFP
 ```
@@ -288,43 +324,219 @@ After a successful note post, reply:
 
 ## Note Format Template
 
-The `note` body must follow this structure:
+The `note` body must follow this structure. **Use single-line spacing only — NO blank lines between sections.** The Alta UI renders the note compactly; extra blank lines double/triple the visual gap and degrade readability.
 
 ```
 RECOMMENDATION: [BID / NO BID / CONDITIONAL BID / NEEDS REVIEW]
 COMPOSITE SCORE: [X.X / 10]
-
 SCOPE:
 [2-3 sentences describing what is being procured]
-
 KEY DATES:
 - Due Date: [date] [time] [timezone]
 - Pre-Bid Meeting: [date or N/A]
 - Site Visit: [date or N/A]
 - Response Deadline: [date or N/A]
-
 VALUE:
 [Estimated contract value or budget range]
 Win Probability: [X%]
-
 REASONING:
 [Why this is or isn't a good fit for Alta Jan]
-
 TOP 3 OPPORTUNITIES:
 1. [opportunity]
 2. [opportunity]
 3. [opportunity]
-
 TOP 3 RISKS:
 1. [risk]
 2. [risk]
 3. [risk]
-
 ACTION ITEMS:
 - [Item 1 with owner and deadline]
 - [Item 2]
 - [Item 3]
 ```
+
+**Formatting rules:**
+- Section headers (e.g., `SCOPE:`, `KEY DATES:`) are on their own line with no blank line above or below.
+- Multi-paragraph content within a section may use `\n` between paragraphs but NOT `\n\n`.
+- When constructing the JSON payload, use single `\n` separators — never `\n\n`.
+- Lists (numbered or bulleted) sit directly under the section header with no blank line.
+
+---
+
+## Command Reference
+
+All commands require a verified RFP ID per the **RFP ID Verification Protocol** above. If the ID is missing, ask first. If an ID is cached from earlier in the session, re-confirm: *"Are we still working on RFP #[ID]?"*
+
+`run help` or `commands` → display this list to the user.
+
+---
+
+### `run [ID]` — Full Review
+
+Run the complete Executive Analysis Framework (Steps 1–7 below).
+
+Workflow:
+1. Verify ID.
+2. `GET /rfps.php?id={ID}` + `GET /rfp_notes.php?rfp_id={ID}`.
+3. Execute all 7 analysis steps. Produce executive brief + 35-question scorecard + labor cost + profit/revenue + max-budget comparison.
+4. Double confirmation before write (per § API-Integrated Workflow Step 3).
+5. `POST /rfp_notes.php` with structured note.
+6. Offer follow-up field updates.
+
+---
+
+### `run exec [ID]` — Executive Quick Review
+
+5–10 bullet executive summary. Skip the full 35-question scorecard.
+
+Output:
+- **Recommendation:** BID / NO-BID / CONDITIONAL + one-line rationale
+- **Composite score:** X.X / 10
+- **TCV / ACV / max budget:** $X / $Y / $Z
+- **Key dates:** due date + pre-bid + award
+- **Top 3 opportunities** (one line each)
+- **Top 3 risks** (one line each)
+- **Estimated labor cost vs. budget** (if available)
+- **Win probability:** X%
+
+No note posted unless user says "post it" — then run the standard double-confirmation flow.
+
+---
+
+### `run docs [ID]` — Document Inventory & Attach
+
+1. `GET /rfp_documents.php?rfp_id={ID}` → list all attached documents (name, URL, size).
+2. Pull `source_url` and `rfp_link` from RFP record.
+3. Compare: report which linked docs are NOT yet attached.
+4. If user says **"download"** or **"attach"** → for each unattached URL run `POST /rfp_documents.php` (HTTPS only, 50 MB max, confirm each).
+5. If user says **"show"** → return the list with clickable URLs and short descriptions.
+
+---
+
+### `run labor cost [ID]` — Labor Specs + Cost Extraction
+
+1. Extract from RFP scope:
+   - **Trade classifications** (e.g., journeyman electrician, project manager, foreman, laborer)
+   - **Prevailing wage / Davis-Bacon / union** requirements
+   - **Per-trade certifications** (OSHA 30, state licenses, security clearances)
+   - **Crew composition + headcount per phase**
+   - **Estimated hours or days per role**
+2. Build labor cost table:
+
+   | Role / Trade | Hours | Burdened Rate ($/hr) | Subtotal |
+   |--------------|-------|----------------------|----------|
+
+3. Compute **Total Labor Cost** = Σ subtotals. Show math.
+4. Flag any role missing rate data → ask user for input or use industry default (mark as ASSUMPTION).
+5. Offer write-back:
+   ```
+   PUT /rfps.php?id={ID}
+   { "estimated_hours": <total>, "estimated_budget": <total_labor_cost> }
+   ```
+6. Confirm before write.
+
+---
+
+### `run profit [ID]` / `run revenue [ID]` — Profit & Revenue Estimate
+
+Includes mandatory max-budget comparison when the RFP specifies a cap.
+
+1. Pull from RFP: `estimated_budget`, `contract_value`, `contract_value_max` (cap).
+2. Pull our total cost: labor cost (from `run labor cost` if cached) + materials + overhead + contingency. Ask user for any missing pieces.
+3. **If the RFP has a max / cap budget**, produce this table:
+
+   | Metric | Value |
+   |--------|-------|
+   | Max budget (cap) | $X |
+   | Our total cost | $Y |
+   | Potential revenue ($) | $X − $Y = $Z |
+   | Potential revenue (%) | (Z / X) × 100 = N% |
+   | Margin % at cap | (Z / X) × 100 = N% |
+   | Status | ✅ Under cap / ⚠️ Tight (< 10% margin) / ❌ Over cap |
+
+4. **If our cost > cap** → flag immediate NO-BID or re-scope. Do not proceed with bid recommendation until resolved.
+5. **If no cap disclosed** → estimate revenue from scope + comparable projects, label as ASSUMPTION.
+6. Offer write-back:
+   ```
+   PUT /rfps.php?id={ID}
+   {
+     "our_bid_amount":          <our price>,
+     "estimated_profit_margin": <margin %>,
+     "bid_margin":              <margin %>
+   }
+   ```
+7. Confirm before write.
+
+---
+
+### `run update [field] to [value]` — Single-Field Write
+
+Example: `run update bid amount to $5000` → `our_bid_amount = 5000`.
+
+1. Parse the natural-language field name. Map to a writable field from the **Writable RFP Fields** table.
+2. Validate the value against the declared type (string / date / time / int / decimal) and against enum values where applicable.
+3. Echo back exactly what will be written:
+   > "Writing `our_bid_amount = 5000` to RFP #[ID]. Confirm? (Yes / No)"
+4. On Yes → `PUT /rfps.php?id={ID}` with the single field.
+5. On enum mismatch → list valid options and ask user to pick.
+6. On unknown field → ask user to clarify; show closest matches from the schema.
+
+---
+
+### `run web update [ID]` — Re-Scan Source URLs for New Data
+
+1. Pull `source_url` and `rfp_link` from the RFP record.
+2. Fetch both. Re-extract: due_date, due_time, addenda count, amendments, posted Q&A responses, pre-bid changes, contract value updates.
+3. Compare to stored values. Produce diff report:
+
+   | Field | Stored | Web | Action |
+   |-------|--------|-----|--------|
+
+4. For each diff, ask user: **"Update? (Yes / No / skip)"** — one field at a time.
+5. Apply approved updates via `PUT /rfps.php?id={ID}`.
+6. If new addenda PDFs are detected → offer to attach them via the `run docs` flow.
+7. If both URLs are missing → ask user to provide a source URL first.
+
+---
+
+### `run link [ID]` — URL Health Check
+
+1. Pull every URL field on the RFP: `source_url`, `rfp_link`, `terms_conditions_url`, and URLs from `rfp_documents.php`.
+2. HTTP HEAD each URL (follow redirects, max 5 hops).
+3. Report:
+
+   | Field | URL | Status | Notes |
+   |-------|-----|--------|-------|
+
+   - `200` → ✅ valid
+   - `3xx` → ⚠️ redirect; note final URL
+   - `4xx` / `5xx` → ❌ broken
+   - timeout / DNS fail → ❌ unreachable
+4. For broken URLs → offer to clear the field or replace with a new URL provided by the user.
+
+---
+
+### `run decision [value]` — Update `bid_decision`
+
+Example: `run decision not a good fit` → set `bid_decision = "Not a Good Fit"`.
+
+1. Fuzzy-match the user's value against the `bid_decision` enum:
+   `no_decision`, `New`, `Reviewing`, `Not a Good Fit`, `Not Qualified`, `Bidding`, `Submitted`, `Missed Deadline`, `Won`, `Lost`, `Needs Attention`, `Needs Price`, `Needs Approval (Fabio/Angelica)`
+2. On match → confirm with the user:
+   > "Setting RFP #[ID] `bid_decision = 'Not a Good Fit'`. Reason? (optional — will write to `bid_decision_reason`)"
+3. `PUT /rfps.php?id={ID}` with `bid_decision` (+ `bid_decision_reason` if supplied).
+4. On no match → list all valid enum values and ask user to pick.
+5. Echo result + edit URL.
+
+---
+
+### Command Dispatch Rules
+
+- Commands are case-insensitive. `Run Exec 373` = `run exec 373`.
+- If the user types just `run` with no ID and no active session ID → ask: *"Which command, and for which RFP?"*
+- If the user combines commands (e.g., `run labor cost then run profit`) → execute sequentially, re-confirming the ID once for the chain.
+- Any command that performs a write action must double-confirm (action + ID) before calling the API.
+- Never batch writes silently — each `PUT` / `POST` requires its own confirmation.
 
 ---
 
@@ -358,7 +570,7 @@ Identify every document provided. If only one document is shared, ask whether th
 
 Confirm inventory with the user before proceeding. Missing documents (especially pricing schedules or T&Cs) should be flagged as blockers.
 
-### Step 2: Extract the 30 Questions
+### Step 2: Extract the 35 Questions
 
 Work through every question in `references/question-framework.md`. For each question:
 - Provide a direct answer grounded in the document text
@@ -398,7 +610,7 @@ Include at the top:
 
 ### Step 6: Produce the Scorecard
 
-Populate `assets/scorecard-template.md` with the full 30-question breakdown. This is the appendix the CEO reads if they want to drill in.
+Populate `assets/scorecard-template.md` with the full 35-question breakdown. This is the appendix the CEO reads if they want to drill in.
 
 ### Step 7: Next Actions Checklist
 
@@ -421,11 +633,11 @@ End every analysis with a concrete action list:
 
 ## Bundled Resources
 
-- `references/question-framework.md` — The 30-question C-level framework organized into 8 categories
+- `references/question-framework.md` — The 35-question C-level framework organized into 9 categories
 - `references/scoring-rubric.md` — 1-10 scoring methodology for Opportunity / Complexity / Revenue with composite formula
 - `references/red-flags.md` — Deal-breaker checklist and risk signals
 - `assets/executive-brief-template.md` — One-page executive summary format
-- `assets/scorecard-template.md` — Full 30-question structured scorecard
+- `assets/scorecard-template.md` — Full 35-question structured scorecard
 
 ## Style
 

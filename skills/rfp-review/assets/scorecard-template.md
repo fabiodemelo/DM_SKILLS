@@ -1,6 +1,6 @@
 # RFP Scorecard — [RFP Title / Reference Number]
 
-Full 30-question analysis. Cite RFP section/page for every answer. Mark unanswered items as **"Not specified — REQUEST CLARIFICATION"** and add to the Q&A list at the bottom.
+Full 35-question analysis. Cite RFP section/page for every answer. Mark unanswered items as **"Not specified — REQUEST CLARIFICATION"** and add to the Q&A list at the bottom.
 
 ---
 
@@ -67,12 +67,43 @@ Full 30-question analysis. Cite RFP section/page for every answer. Mark unanswer
 | 27 | Required meetings / site visits / orals? | [list + mandatory? cost?] | [§ process] |
 | 28 | Evaluation & award process? | [scoring rubric + panel + BAFO?] | [§ evaluation] |
 
-## Category 8 — Go/No-Go Decision
+## Category 8 — Labor, Schedule & Cost Cap
 
 | # | Question | Answer | Source |
 |---|----------|--------|--------|
-| 29 | Bid / No-Bid / Conditional-Bid? | [recommendation + rationale] | [synthesis] |
-| 30 | Top 3 Q&A questions to submit? | [see list below] | [strategic] |
+| 29 | Labor specs (trades, prevailing wage, union, certs, crew)? | [list] | [§ scope] |
+| 30 | Execution schedule (phases inside contract term)? | [phase table — see brief] | [§ schedule] |
+| 31 | Total estimated hours / days? | [X hrs / Y days — Σ per role] | [calc] |
+| 32 | Total labor cost? | $[X] (see breakdown in brief) | [calc] |
+| 33 | Cost vs. max budget? | Cap $[X], Cost $[Y], Revenue $[Z] ([N]%), Status [✅/⚠️/❌] | [§ budget + calc] |
+
+### Labor Cost Breakdown
+
+| Role / Trade | Hours | Burdened Rate ($/hr) | Subtotal |
+|--------------|------:|---------------------:|---------:|
+| [Role 1] | [hrs] | $[rate] | $[sub] |
+| [Role 2] | [hrs] | $[rate] | $[sub] |
+| **Total** | **[hrs]** | | **$[total]** |
+
+### Cost vs. Cap
+
+| Metric | Value |
+|--------|------:|
+| Max budget | $[X] |
+| Our total cost | $[Y] |
+| Potential revenue ($) | $[Z] |
+| Potential revenue (%) | [N]% |
+| Margin % at cap | [N]% |
+| Status | [✅ / ⚠️ / ❌] |
+
+---
+
+## Category 9 — Go/No-Go Decision
+
+| # | Question | Answer | Source |
+|---|----------|--------|--------|
+| 34 | Bid / No-Bid / Conditional-Bid? | [recommendation + rationale] | [synthesis] |
+| 35 | Top 3 Q&A questions to submit? | [see list below] | [strategic] |
 
 ---
 
