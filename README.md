@@ -4,7 +4,7 @@ A collection of reusable Claude AI skills for Demelos LLC projects. Each skill i
 
 ## What's Inside
 
-- **human-writing** — A comprehensive writing style guide that produces clear, direct, human-sounding content without corporate jargon or AI-speak. Applies universally across all text generation tasks.
+- **dm-writing** — The demelos writing system. Voice and word rules that produce clear, direct, human-sounding content, plus rules for what never to publish and consistency across surfaces. Applies to all text generation tasks. Replaces human-writing.
 - **rfp-review** — Analyzes RFPs, RFQs, RFIs, SOWs, and tender documents from a C-level executive perspective. Produces a 1-10 opportunity rating, bid/no-bid recommendation, executive brief, full 30-question scorecard, and red flag assessment.
 
 More skills coming soon.
@@ -16,7 +16,7 @@ More skills coming soon.
 Copy a skill folder into your Claude Code skills directory:
 
 ```bash
-cp -r skills/human-writing ~/.claude/skills/human-writing
+cp -r skills/dm-writing ~/.claude/skills/dm-writing
 ```
 
 Or clone the entire library:
@@ -29,7 +29,7 @@ cp -r DM_SKILLS/skills/* ~/.claude/skills/
 ### Cowork
 
 ```bash
-cp -r skills/human-writing ~/.cowork/skills/human-writing
+cp -r skills/dm-writing ~/.cowork/skills/dm-writing
 ```
 
 Or with the full library:
@@ -54,12 +54,12 @@ When a skill is installed in `~/.claude/skills/` or `~/.cowork/skills/`, Claude 
 
 ## Using a Skill
 
-Once installed, skills are activated automatically based on their description. For example, the `human-writing` skill triggers on all text generation tasks and applies the writing rules without you having to ask.
+Once installed, skills are activated automatically based on their description. For example, the `dm-writing` skill triggers on all text generation tasks and applies the writing rules without you having to ask.
 
 You can also explicitly reference a skill:
 
 ```
-Use the human-writing skill to rewrite this paragraph.
+Use the dm-writing skill to rewrite this paragraph.
 ```
 
 ## Contributing
@@ -82,4 +82,4 @@ https://www.demelos.com
 
 ---
 
-Last updated: April 2026
+Last updated: October 2026
