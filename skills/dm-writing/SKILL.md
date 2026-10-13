@@ -68,6 +68,7 @@ Add these to the banned words above.
 - **Category nouns that say nothing:** stakeholders, deliverables, outputs, solutions (as a bare noun), ecosystem. Name the person or the thing.
 - **Time phrasing:** conversational, not shorthand. "Second quarter," not "Q2." "Week two," not "week 2." "Every night at 2am," not "daily batch."
 - **Numbers:** say what the number is a number of. "Missed 14 of 40 calls," not "35%." Round honestly. Never invent precision.
+- **Brand name:** `demelos`, always lowercase, even at the start of a sentence (reword if it reads badly). Never "DeMelo," "DeMelos" or "Demelos." Fabio's own name stays Fabio DeMelo.
 - **Punctuation:** no em-dashes anywhere in finished copy. No exclamation points. Sentence case for headings and buttons, except proper nouns.
 
 ---
